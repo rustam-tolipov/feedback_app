@@ -14,3 +14,31 @@ Feedback: I made it for dependent for product, and add validation for rating sin
 9. For debugging I first make sure if there are any N+1 query problem with bullet gem
 10. I added index for product name and feedback rating to improve performance.
 11. I wanted to try kaminari or pagy but after facing couple of issues with setup, I stick with the custom pagination for this. Also directly putting param to route_path I got error so just for this time I use to_unsafe_h
+12. I added minimal styling at the end. 
+
+### timing
+1. I started working with this project at 11AM UTC+5
+2. Approximately 1-2hs took me for planning, working with schema
+3. In the rest of 8hs I try to implement step by step, first I try to keep writing test togather. Since it was tooking some time I jump in to working with the project instead. 
+4. Turbo frame took a bit of time. Currently project is mixed with traditional page reload and turbo in requested places.
+5. For file upload I need to make a desicion wethere upload products with user_id or not.
+6. I added indexex to improve the performance. Also joins was a bit tricky for putting them into scope. 
+7. the last hours I spent for testing services and queries. Testing csv upload took a bit amount of time.
+
+### instalation
+used: rails 7.2, sqlite3, ruby 3.3.1
+
+instalation:
+```
+bundle install
+rails db:create
+rails db:migrate
+rails db:seed
+```
+
+or just
+```
+rails db:setup
+```
+
+added sample csv file in root sample_feedbacks.csv
