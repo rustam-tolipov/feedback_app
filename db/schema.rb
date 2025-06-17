@@ -10,11 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_06_17_072441) do
+ActiveRecord::Schema[7.2].define(version: 2025_06_17_135552) do
   create_table "feedbacks", force: :cascade do |t|
     t.integer "rating"
     t.text "comment"
-    t.integer "user_id", null: false
+    t.integer "user_id"
     t.integer "product_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

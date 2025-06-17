@@ -1,19 +1,57 @@
 <div class="container flex flex-col gap-4 p-4">
+  <div id="notice">
+    <%= render "shared/notice", notice: notice %>
+  </div>
+
   <h1 class="font-bold text-3xl">products</h1>
 
-  <%= form_with(url: root_path, method: :get, data: {controller: "search", search_url_value: root_path, turbo_frame: "products", turbo_action: "advance"}) do |form| %>
+  <%= link_to "Upload Feedbacks (CSV)", upload_csv_form_feedbacks_path, class: "text-blue-500 hover:underline" %>
+
+  <%= form_with(
+        url: root_path,
+        method: :get,
+        data: {
+          controller: "search",
+          search_url_value: root_path,
+          turbo_frame: "products",
+          turbo_action: "advance"
+        }
+      ) do |form| %>
     <div class="flex space-x-3 items-center">
-      <%= form.text_field :query, class: "py-2 px-4 border rounded", placeholder: "Search by product name", data: { action: "input->search#search"} %>
+      <%= form.text_field :query,
+          class: "py-2 px-4 border rounded",
+          placeholder: "Search by product name",
+          data: { action: "input->search#search" } %>
 
       <%= form.select :rating,
-          options_for_select([["All Ratings", ""], "1", "2", "3", "4", "5"], selected: params[:rating]),
-          {}, class: "py-2 px-4 border rounded", data: { action: "change->search#search" } %>
+          options_for_select(
+            [["All Ratings", ""]] +
+            (1..5).to_a.reverse.map { |r| ["#{r} and up", r] },
+            selected: params[:rating]
+          ),
+          {},
+          class: "py-2 px-4 border rounded",
+          data: { action: "change->search#search" } %>
 
-      <%= form.submit 'Search', class: "px-4 py-2 bg-green-400 rounded hover:outline" %>
+      <%= form.submit 'Search',
+          class: "px-4 py-2 bg-green-400 rounded hover:outline" %>
     </div>
   <% end %>
 
+
   <%= turbo_frame_tag "products" do %>
-    <%= render partial: "products", locals: { products: @products } %>
+    <% if params[:query].present? || params[:rating].present? %>
+      <p class="text-sm text-gray-700 italic mb-2">
+        Filters:
+        <% if params[:query].present? %>
+          “<%= params[:query] %>”
+        <% end %>
+        <% if params[:rating].present? %>
+          <% if params[:query].present? %>, <% end %>
+          <%= "#{params[:rating]} and up" %>
+        <% end %>
+      </p>
+    <% end %>
+    <%= render partial: "products/products", locals: { products: @products } %>
   <% end %>
 </div>

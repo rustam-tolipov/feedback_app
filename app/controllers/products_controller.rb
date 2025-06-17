@@ -13,4 +13,9 @@ class ProductsController < ApplicationController
       end
     end
   end
+
+  def show
+    @product = Product.find(params[:id])
+    @feedbacks = @product.feedbacks.includes(:user).order(created_at: :desc)
+  end
 end
