@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_06_17_135552) do
+ActiveRecord::Schema[7.2].define(version: 2025_06_17_152041) do
   create_table "feedbacks", force: :cascade do |t|
     t.integer "rating"
     t.text "comment"
@@ -19,6 +19,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_06_17_135552) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["product_id"], name: "index_feedbacks_on_product_id"
+    t.index ["rating"], name: "index_feedbacks_on_rating"
     t.index ["user_id"], name: "index_feedbacks_on_user_id"
   end
 
@@ -27,6 +28,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_06_17_135552) do
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_products_on_name"
   end
 
   create_table "users", force: :cascade do |t|

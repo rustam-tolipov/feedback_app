@@ -11,3 +11,5 @@ Feedback: I made it for dependent for product, and add validation for rating sin
 6. For displaying products with averate score and feedbacks count for each post I used left_joins and set averager_rating based on feedbacks.rating, and feedback_count based on feedbacks.id. I use fat model and skinny controller approach and moved this logic to scope in model.
 7. Added searching functionality with turbo stimulus. Filter by rating also implemented, both search and filter can work togather. 
 8. Well for uploading reviews(feedbacks), I used simple uploading technique, put the logic in services. To save time I used simple redirect after upload (no turbo). Also, I change user_id to be nullable since we are uploading data and we might not have user id then we can skipp user in this point. But if other areas fails then we see in faild imports.
+9. For debugging I first make sure if there are any N+1 query problem with bullet gem
+10. I added index for product name and feedback rating to improve performance.
