@@ -9,3 +9,4 @@ Feedback: I made it for dependent for product, and add validation for rating sin
 4. In order to make sure all models working as intended I added some seeds for (user, product, feedback) and tested with rails c.
 5. I set up products controller and displayed all products in root and give them basic style.
 6. For displaying products with averate score and feedbacks count for each post I used left_joins and set averager_rating based on feedbacks.rating, and feedback_count based on feedbacks.id. I use fat model and skinny controller approach and moved this logic to scope in model.
+7. Added searching functionality with turbo stimulus. Filter by rating also implemented, both search and filter can work togather. 

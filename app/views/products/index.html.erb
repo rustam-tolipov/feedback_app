@@ -1,14 +1,19 @@
-<div class="container flex flex-col gap-4">
-  <h1 class="text-4x font-bold py-4">Products <%= @products.count %></h1>
+<div class="container flex flex-col gap-4 p-4">
+  <h1 class="font-bold text-3xl">products</h1>
 
-  <div class="grid lg:grid-cols-3 gap-4 md:grid-cols-2 grid-cols-1">
-    <% @products.each do |product| %>
-      <div class="p-4 rounded border border-gray-200 hover:shadow-lg">
-        <h2 class="text-xl font-semibold"><%= product.name %></h2>
-        <p class="text-gray-600"><%= product.description %></p>
-        <p>avg rating: <span class="text-yellow-500"><%= product.average_rating %></span></p>
-        <p>feedbacks count: <span class="text-gray-600"><%= product.feedback_count %></span></p>
-      </div>
-    <% end %>
-  </div>
+  <%= form_with(url: root_path, method: :get, data: {controller: "search", search_url_value: root_path, turbo_frame: "products", turbo_action: "advance"}) do |form| %>
+    <div class="flex space-x-3 items-center">
+      <%= form.text_field :query, class: "py-2 px-4 border rounded", placeholder: "Search by product name", data: { action: "input->search#search"} %>
+
+      <%= form.select :rating,
+          options_for_select([["All Ratings", ""], "1", "2", "3", "4", "5"], selected: params[:rating]),
+          {}, class: "py-2 px-4 border rounded", data: { action: "change->search#search" } %>
+
+      <%= form.submit 'Search', class: "px-4 py-2 bg-green-400 rounded hover:outline" %>
+    </div>
+  <% end %>
+
+  <%= turbo_frame_tag "products" do %>
+    <%= render partial: "products", locals: { products: @products } %>
+  <% end %>
 </div>

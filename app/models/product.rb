@@ -13,4 +13,14 @@ class Product < ApplicationRecord
 
       from(base, :products)
   }
+
+  scope :search, ->(query) {
+    where("lower(name) LIKE ?", "%#{query.downcase}%") if query.present?
+  }
+
+  scope :filter_by_rating, ->(rating) {
+    return all if rating.blank?
+
+    where("average_rating >= ?", rating.to_f)
+  }
 end
