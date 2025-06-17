@@ -4,6 +4,9 @@
 
   <h2 class="text-xl font-semibold mb-2">Feedbacks (<%= @feedbacks.count %>)</h2>
 
+  <h2 class="text-xl font-bold mb-2">Leave a Review</h2>
+  <%= render "feedbacks/form", product: @product %>
+
   <% @feedbacks.each do |feedback| %>
     <div class="mb-4 p-4 border rounded shadow-sm">
       <p class="text-sm text-gray-600">Rated: <%= feedback.rating %> ★</p>
