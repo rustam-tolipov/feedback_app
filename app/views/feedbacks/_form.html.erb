@@ -1,13 +1,24 @@
-<%= form_with model: [product, Feedback.new], local: true, id: "feedback_form" do |form| %>
-  <div class="mb-4">
-    <%= form.label :rating, class: "block font-semibold" %>
-    <%= form.select :rating, options_for_select(1..5), {}, class: "mt-1 block w-full" %>
+<%= form_with model: [product, Feedback.new],
+              local: true,
+              id: "feedback_form",
+              class: "space-y-4" do |form| %>
+
+  <%# rating %>
+  <div>
+    <%= form.label :rating, "Rating", class: "block mb-1 text-sm font-medium" %>
+    <%= form.select :rating, options_for_select(1..5),
+        {}, class: "w-full border rounded px-3 py-2 text-sm" %>
   </div>
 
-  <div class="mb-4">
-    <%= form.label :comment, class: "block font-semibold" %>
-    <%= form.text_area :comment, rows: 4, class: "mt-1 block w-full" %>
+  <%# comment %>
+  <div>
+    <%= form.label :comment, "Comment", class: "block mb-1 text-sm font-medium" %>
+    <%= form.text_area :comment, rows: 4,
+        class: "w-full border rounded px-3 py-2 text-sm" %>
   </div>
 
-  <%= form.submit "Submit Feedback", class: "bg-blue-500 text-white px-4 py-2 rounded" %>
+  <%# btn %>
+  <%= form.submit "Submit Feedback",
+      class: "bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700" %>
+
 <% end %>
