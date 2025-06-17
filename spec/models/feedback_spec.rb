@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Feedback, type: :model do
-  let(:product) { Product.create!(name: "Laptop", description: "some laptop")}
+  let(:product) { Product.create!(name: "Laptop", description: "some laptop") }
 
   it "is valid with a rating between 1 to 5" do
     feedback = Feedback.new(rating: 4, product: product)

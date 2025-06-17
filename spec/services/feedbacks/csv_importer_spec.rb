@@ -7,7 +7,7 @@ RSpec.describe Feedbacks::CsvImporter do
     let!(:user) { User.create!(name: "maxim", email: "maxim@test.com") }
 
     def create_csv(content)
-      file = Tempfile.new(["feedbacks", ".csv"])
+      file = Tempfile.new([ "feedbacks", ".csv" ])
       file.write(content)
       file.rewind
       file

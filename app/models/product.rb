@@ -4,11 +4,11 @@ class Product < ApplicationRecord
   scope :with_rating_data, -> {
     base = Product
     .left_joins(:feedbacks)
-    .group('products.id')
+    .group("products.id")
     .select(
-      'products.*',
-      'coalesce(avg(feedbacks.rating), 0) as average_rating',
-      'count(feedbacks.id) as feedback_count'
+      "products.*",
+      "coalesce(avg(feedbacks.rating), 0) as average_rating",
+      "count(feedbacks.id) as feedback_count"
       )
 
       from(base, :products)

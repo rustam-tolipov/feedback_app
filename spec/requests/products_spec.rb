@@ -24,7 +24,7 @@ RSpec.describe "Products", type: :request do
       Array.new(10) do
         Feedback.create!(
           rating: rand(1..5),
-          comment: [Faker::Quote.famous_last_words, nil].sample,
+          comment: [ Faker::Quote.famous_last_words, nil ].sample,
           product: products.sample,
           user: users.sample
         )

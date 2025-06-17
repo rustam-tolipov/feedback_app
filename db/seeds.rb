@@ -2,7 +2,7 @@
 
 puts "🌱🌱🌱🌱🌱🌱🌱 SEEDING.... 🌱🌱🌱🌱🌱🌱🌱"
 
-# making sure there is no leftover date 
+# making sure there is no leftover date
 Feedback.delete_all
 User.delete_all
 Product.delete_all
@@ -27,10 +27,10 @@ end
 
 # So this time I added feedbacks with random products and users that we seeded before
 puts "Feedbacks that for products created above with users that we specified"
-500.times do 
+500.times do
   Feedback.create!(
     rating: rand(1..5),
-    comment: [Faker::Quote.famous_last_words, nil].sample,
+    comment: [ Faker::Quote.famous_last_words, nil ].sample,
     product: products.sample,
     user: users.sample
   )

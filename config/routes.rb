@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   root "products#index"
-  resources :products do 
-    resources :feedbacks, only: [:create]
+  resources :products do
+    resources :feedbacks, only: [ :create ]
   end
 
   resources :feedbacks do
