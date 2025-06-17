@@ -6,6 +6,8 @@
       <div class="p-4 rounded border border-gray-200 hover:shadow-lg">
         <h2 class="text-xl font-semibold"><%= product.name %></h2>
         <p class="text-gray-600"><%= product.description %></p>
+        <p>avg rating: <span class="text-yellow-500"><%= product.average_rating %></span></p>
+        <p>feedbacks count: <span class="text-gray-600"><%= product.feedback_count %></span></p>
       </div>
     <% end %>
   </div>
