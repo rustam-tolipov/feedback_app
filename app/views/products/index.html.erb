@@ -1,0 +1,12 @@
+<div class="container flex flex-col gap-4">
+  <h1 class="text-4x font-bold py-4">Products <%= @products.count %></h1>
+
+  <div class="grid lg:grid-cols-3 gap-4 md:grid-cols-2 grid-cols-1">
+    <% @products.each do |product| %>
+      <div class="p-4 rounded border border-gray-200 hover:shadow-lg">
+        <h2 class="text-xl font-semibold"><%= product.name %></h2>
+        <p class="text-gray-600"><%= product.description %></p>
+      </div>
+    <% end %>
+  </div>
+</div>
