@@ -52,6 +52,6 @@
         <% end %>
       </p>
     <% end %>
-    <%= render partial: "products/products", locals: { products: @products } %>
+    <%= render partial: "products", locals: { products: @products, page: @page, total_pages: @total_pages } %>
   <% end %>
 </div>

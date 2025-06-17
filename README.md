@@ -13,3 +13,4 @@ Feedback: I made it for dependent for product, and add validation for rating sin
 8. Well for uploading reviews(feedbacks), I used simple uploading technique, put the logic in services. To save time I used simple redirect after upload (no turbo). Also, I change user_id to be nullable since we are uploading data and we might not have user id then we can skipp user in this point. But if other areas fails then we see in faild imports.
 9. For debugging I first make sure if there are any N+1 query problem with bullet gem
 10. I added index for product name and feedback rating to improve performance.
+11. I wanted to try kaminari or pagy but after facing couple of issues with setup, I stick with the custom pagination for this. Also directly putting param to route_path I got error so just for this time I use to_unsafe_h
