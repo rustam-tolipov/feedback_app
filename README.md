@@ -12,7 +12,9 @@
 9. I updated styling ground up to clean up things and use turbo frame better.
 10. So I made sure the application runs with or without turbo. There are older browsers that do not support turbo in this case I handle them as well. 
 11. Adding feedback to product is beeing handled with turbo stream.
-12. So I removed indexes from feedback rating and product name. Since there is no benefits of using them. But if we use pg_search + GIN index, then it would be way faster than using seq scan. Currently the app is not that big. I think seq scan enough untill we hit 1M+ records.
+12. So I removed indexes from feedback rating and product name. Since there is no benefits of using them. But if we use pg_search + GIN index, then it would be way faster than using seq scan. Currently the app is not that big. I think seq scan enough untill we hit 1M+ records. 
+13. Also added sql sanitizer for searching
+14. I did some changes for CSV importer based on visual changes, and updated tests for it.
 
 # initial build
 

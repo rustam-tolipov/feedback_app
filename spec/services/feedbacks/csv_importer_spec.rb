@@ -7,41 +7,76 @@ RSpec.describe Feedbacks::CsvImporter do
     let!(:user) { User.create!(name: "maxim", email: "maxim@test.com") }
 
     def create_csv(content)
-      file = Tempfile.new([ "feedbacks", ".csv" ])
+      file = Tempfile.new(["feedbacks", ".csv"])
       file.write(content)
       file.rewind
       file
     end
 
-    it "should import if the valida data given" do
+    it "imports valid data with explicit product_id" do
       csv_data = <<~CSV
-        rating,comment,product_id,user_id
-        5,"Excellent product",#{product.id},#{user.id}
-        4,"Good enough",#{product.id},#{user.id}
+        rating,comment
+        5,"Excellent product"
+        4,"Good enough"
       CSV
 
       file = create_csv(csv_data)
-      result = described_class.call(file)
+      result = described_class.call(file, product.id)
 
-      expect(result).to eq({ success: 2, failed: 0 })
+      expect(result[:imported]).to eq(2)
+      expect(result[:failed]).to be_empty
       expect(Feedback.count).to eq(2)
+      expect(Feedback.first.product_id).to eq(product.id)
     end
 
-    it "should show error if file is not present" do
-      result = described_class.call(nil)
-      expect(result).to eq({ success: 0, failed: 1 })
-    end
+    it "falls back to row product_id if global product_id not given" do
+      other_product = Product.create!(name: "iPad", description: "Tablet")
 
-    it "should accept without user" do
-      file = create_csv(<<~CSV)
-        rating,comment,product_id,user_id
-        3,user not added,#{product.id},
+      csv_data = <<~CSV
+        rating,comment,product_id
+        5,"Nice",#{other_product.id}
       CSV
 
-      result = described_class.call(file)
+      file = create_csv(csv_data)
+      result = described_class.call(file, nil)
 
-      expect(result[:success]).to eq(1)
-      expect(Feedback.last.user_id).to be_nil
+      expect(result[:imported]).to eq(1)
+      expect(Feedback.first.product_id).to eq(other_product.id)
+    end
+
+    it "picks random product if no product info available" do
+      Product.create!(name: "RandomOne", description: "Backup")
+
+      csv_data = <<~CSV
+        rating,comment
+        3,"No product ID"
+      CSV
+
+      file = create_csv(csv_data)
+      result = described_class.call(file, nil)
+
+      expect(result[:imported]).to eq(1)
+      expect(Feedback.first.product).to be_present
+    end
+
+    it "returns error if file is blank" do
+      result = described_class.call(nil, product.id)
+
+      expect(result[:imported]).to eq(0)
+      expect(result[:failed]).to eq(["File is blank"])
+    end
+
+    it "assigns a random user if not specified in CSV" do
+      csv_data = <<~CSV
+        rating,comment
+        5,"Anonymous user"
+      CSV
+
+      file = create_csv(csv_data)
+      result = described_class.call(file, product.id)
+
+      expect(result[:imported]).to eq(1)
+      expect(Feedback.last.user).to be_present
     end
   end
 end

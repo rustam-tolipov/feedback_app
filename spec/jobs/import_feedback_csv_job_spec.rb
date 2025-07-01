@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe ImportFeedbackCsvJob, type: :job do
-  let(:product) { Product.create!(name: "Mouse", description: "Gaming mouse") }
+  let!(:product) { Product.create!(name: "Mouse", description: "Gaming mouse") }
 
   it "imports feedbacks from a valid CSV file" do
     csv = <<~CSV
