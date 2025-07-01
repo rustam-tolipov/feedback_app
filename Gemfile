@@ -64,3 +64,5 @@ group :development, :test do
   gem "rspec-rails", "~> 7.0.0"
 end
 gem "faker", "~> 3.5"
+
+gem "pagy", "~> 9.3"

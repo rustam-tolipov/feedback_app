@@ -7,6 +7,7 @@
 4. I additionally added rake task `rails products:recalculate_stats` to reflect changes on product feedback stats
 5. For importing csv feedbacks I added background job so it can handle have data in background without any issue on live user request. Also copied the csv file to temp incase someone deletes unexpectedly while background job is performing. 
 6. Writed test for importing feedbacks csv and updating product feedback stats jobs.
+7. Since I moved the feedback_count and average_rating to product table. Now it's better to use `pagy` gem instead of manual pagination. Now it's clean and better to use.
 
 1. I initialize rails 7.2 with sqlite3 and tailwindcss for styling
 2. Set up models for User, Product, Feedback

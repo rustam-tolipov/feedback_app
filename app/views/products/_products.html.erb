@@ -19,21 +19,5 @@
 </div>
 
 <div class="mt-6 flex justify-center items-center gap-4">
-  <% if @page > 1 %>
-    <%= link_to "Prev",
-        root_path(params.to_unsafe_h.merge(page: @page - 1)),
-        data: { turbo_frame: "products" },
-        class: "px-4 py-1 bg-gray-100 rounded hover:bg-gray-200" %>
-  <% end %>
-
-  <p class="text-sm text-gray-500">
-    Page <%= @page %> of <%= @total_pages %>
-  </p>
-
-  <% if @page < @total_pages %>
-    <%= link_to "Next",
-        root_path(params.to_unsafe_h.merge(page: @page + 1)),
-        data: { turbo_frame: "products" },
-        class: "px-4 py-1 bg-gray-100 rounded hover:bg-gray-200" %>
-  <% end %>
+  <%== pagy_nav(@pagy) %>
 </div>
