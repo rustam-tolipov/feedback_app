@@ -4,7 +4,7 @@ class Feedback < ApplicationRecord
 
   validates :rating, inclusion: { in: 1..5 }
 
-  after_commit :update_product_feedback_stats, on: [:create, :update, :destroy]
+  after_commit :update_product_feedback_stats, on: [ :create, :update, :destroy ]
 
   private
 

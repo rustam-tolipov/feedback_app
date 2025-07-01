@@ -7,7 +7,7 @@ RSpec.describe Feedbacks::CsvImporter do
     let!(:user) { User.create!(name: "maxim", email: "maxim@test.com") }
 
     def create_csv(content)
-      file = Tempfile.new(["feedbacks", ".csv"])
+      file = Tempfile.new([ "feedbacks", ".csv" ])
       file.write(content)
       file.rewind
       file
@@ -63,7 +63,7 @@ RSpec.describe Feedbacks::CsvImporter do
       result = described_class.call(nil, product.id)
 
       expect(result[:imported]).to eq(0)
-      expect(result[:failed]).to eq(["File is blank"])
+      expect(result[:failed]).to eq([ "File is blank" ])
     end
 
     it "assigns a random user if not specified in CSV" do
