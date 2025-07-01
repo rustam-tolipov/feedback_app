@@ -1,0 +1,13 @@
+<div
+  class="flex flex-col rounded-md bg-white p-6 shadow-sm mt-2"
+>
+  <p class="text-base font-semibold text-gray-900"><%= feedback.user&.name %></p>
+  <div class="flex items-center gap-1 text-yellow-500">
+    <% feedback.rating&.times do |r| %>
+      <span>⭐️</span>
+    <% end %>
+  </div>
+  <p class="mt-2 text-sm text-gray-800">
+    <%= feedback.comment %>
+  </p>
+</div>

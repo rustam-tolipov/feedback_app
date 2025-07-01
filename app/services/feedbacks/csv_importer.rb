@@ -2,35 +2,47 @@ require "csv"
 
 module Feedbacks
   class CsvImporter
-    def self.call(file)
-      new(file).import
+    def self.call(file, product_id)
+      new(file, product_id).import
     end
 
-    def initialize(file)
+    def initialize(file, product_id)
       @file = file
-      @success_count = 0
-      @failure_count = 0
+      @product_id = product_id
+      @imported = 0
+      @failed = []
     end
 
     def import
-      return { success: 0, failed: 1 } unless @file
+      return { imported: 0, failed: [ "File is blank" ] } if @file.blank?
+
+      selected_product = Product.find_by(id: @product_id)
 
       CSV.foreach(@file.path, headers: true) do |row|
+        product =
+          if selected_product.present?
+            selected_product
+          elsif row["product_id"].present?
+            Product.find_by(id: row["product_id"])
+          else
+            Product.all.sample
+          end
+
         feedback = Feedback.new(
-          rating: row["rating"],
+          rating:  row["rating"],
           comment: row["comment"],
-          product_id: row["product_id"],
-          user_id: row["user_id"].presence
+          user:    User.all.sample,
+          product: product
         )
 
         if feedback.save
-          @success_count += 1
+          @imported += 1
         else
-          @failure_count += 1
+          @failed << "Failed to import feedback for product ID #{product&.id || row["product_id"] || 'unknown'}"
         end
       end
 
-      { success: @success_count, failed: @failure_count }
+      { imported: @imported, failed: @failed }
     end
   end
 end

@@ -1,0 +1,28 @@
+<%= form_with(
+    url: root_path(params.permit(:query, :rating)),
+    method: :get,
+    data: {
+      controller: "search",
+      search_target: "form",
+      turbo_frame: "search_result"
+    },
+    class: "flex items-center gap-2 h-full"
+    ) do |form| %>
+
+
+  <%= form.select :rating, options_for_select(
+    [["All", ""]] + (1..5).to_a.map { |r| ["#{r} and up", r]},
+    selected: params[:rating]
+  ), {}, 
+  class: "h-full w-fit rounded border border-gray-300 bg-white px-3 text-sm text-gray-500",
+  data: { action: "change->search#search", search_target: "select"} %>
+
+  <div class="flex items-center h-full gap-2 border-b border-slate-200">
+    <%= form.text_field :query,
+        class: "h-full w-full px-4 text-sm outline-none placeholder:font-thin",
+        placeholder: "enter the key phrase",
+        data: { action: "input->search#search", search_target: "input" }
+        %>
+    <%= form.submit "🔍", class: "h-full w-fit"%>
+  </div>
+<% end %>

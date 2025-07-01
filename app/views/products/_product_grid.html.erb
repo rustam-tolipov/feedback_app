@@ -1,0 +1,20 @@
+<%= turbo_frame_tag "search_result", class: "w-full h-full flex gap-4 flex-col items-center" do %>
+  <% if params[:query].present? || params[:rating].present? %>
+    <p class="text-sm text-gray-600 italic">
+      Filters:
+      <% if params[:query].present? %>
+        "<%= params[:query] %>"
+      <% end %>
+      <% if params[:rating].present? %>
+        <% if params[:query].present? %>, <% end %>
+        <%= "#{params[:rating]} and up" %>
+      <% end %>
+    </p>
+  <% end %>
+
+  <div class="grid h-full max-h-full w-full max-w-full grid-cols-5 gap-6">
+    <%= render @products %>
+  </div>
+  
+  <%== pagy_nav(@pagy) %>
+<% end %>

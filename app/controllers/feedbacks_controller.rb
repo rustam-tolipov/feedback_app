@@ -1,34 +1,35 @@
 class FeedbacksController < ApplicationController
-  def upload_csv
-    if params[:file].present?
+  require "csv"
+  before_action :set_product, only: [ :new, :create ]
 
-      # So in case if someone deletes the importing file I'm saving it as temp file and deleting after import is done.
-      uploaded_file = params[:file]
-      filename = Rails.root.join("tmp", "uploads", "#{SecureRandom.hex(8)}.csv")
-      FileUtils.mkdir_p(File.dirname(filename))
-      File.write(filename, uploaded_file.read)
-
-      ImportFeedbackCsvJob.perform_later(filename.to_s)
-
-      redirect_to root_path, notice: "CSV upload started. Feedbacks will be imported shortly."
-    else
-      redirect_to root_path, alert: "Please upload a CSV file."
-    end
+  def new
+    @feedback = @product.feedbacks.build
   end
 
-  def upload_csv_form
+  def upload_csv
+    result = Feedbacks::CsvImporter.call(params[:file], params[:product_id])
+
+    if result[:failed].any?
+      message = "#{result[:imported]} feedback(s) imported.<br>Some rows failed:<br>#{result[:failed].join('<br>')}"
+      flash[:alert] = message.html_safe
+    else
+      flash[:notice] = "#{result[:imported]} feedback(s) imported."
+    end
+
+    redirect_to params[:product_id].present? ? product_path(params[:product_id]) : root_path
   end
 
   def create
-    @product = Product.find(params[:product_id])
-    @feedback = @product.feedbacks.new(feedback_params)
-    @feedback.user = current_user if defined?(current_user)
+    @feedback = @product.feedbacks.build(feedback_params)
+    @feedback.user = User.first
 
     if @feedback.save
-      redirect_to @product, notice: "feedback submitted"
+      respond_to do |format|
+        format.html
+        format.turbo_stream { flash.now[:notice] = "Feedback added." }
+      end
     else
-      flash[:alert] = "something went wrong"
-      redirect_to @product
+      render :new, status: :unprocessable_entity
     end
   end
 
@@ -36,5 +37,9 @@ class FeedbacksController < ApplicationController
 
   def feedback_params
     params.require(:feedback).permit(:rating, :comment)
+  end
+
+  def set_product
+    @product = Product.find(params[:product_id])
   end
 end

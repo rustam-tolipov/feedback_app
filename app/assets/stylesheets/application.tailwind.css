@@ -1,24 +1,46 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 .pagy {
-  @apply flex space-x-1 font-semibold text-sm text-gray-500;
+  @apply flex flex-wrap items-center justify-center gap-1 font-medium text-sm text-gray-600;
+
   a:not(.gap) {
-    @apply block rounded-lg px-3 py-1 bg-gray-200;
-    &:hover {
-      @apply bg-gray-300;
-    }
+    @apply px-3 py-1 rounded-md transition-colors duration-150 bg-gray-100 hover:bg-gray-200 hover:text-gray-900;
+
     &:not([href]) {
-      /* disabled links */
-      @apply text-gray-300 bg-gray-100 cursor-default;
+      /* Disabled link (no href) */
+      @apply cursor-default text-gray-300 bg-gray-100;
     }
+
     &.current {
-      @apply text-white bg-gray-400;
+      @apply bg-blue-500 text-white font-semibold;
     }
   }
+
+  span.gap {
+    @apply px-2 text-gray-400;
+  }
+
   label {
-    @apply inline-block whitespace-nowrap bg-gray-200 rounded-lg px-3 py-0.5;
+    @apply inline-flex items-center space-x-2 bg-gray-100 rounded-md px-3 py-1;
+
     input {
-      @apply bg-gray-100 border-none rounded-md;
+      @apply w-12 px-2 py-0.5 text-center bg-white border border-gray-300 rounded-md text-gray-700;
     }
   }
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+}
+
+.flash-fade-up {
+  animation: fadeUp 0.2s ease-in forwards;
+  animation-delay: 2s;
 }

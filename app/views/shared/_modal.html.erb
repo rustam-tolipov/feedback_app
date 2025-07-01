@@ -1,0 +1,8 @@
+<div data-modal-target="modal" class="z-50 h-full w-full top-0 left-0 fixed bg-[#0000007e] items-center justify-center hidden" id="modal">
+  <div class="bg-white flex p-4 h-fit w-2/5 rounded relative shadow-lg">
+    <button data-action="click->modal#close" class="border border-slate-400 absolute top-2 right-2 py-1 px-3 rounded">close</button>
+    <div class="h-full w-full py-4">
+      <%= render "upload_csv/form" %>
+    </div>
+  </div>
+</div>

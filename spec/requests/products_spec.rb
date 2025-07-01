@@ -37,9 +37,11 @@ RSpec.describe "Products", type: :request do
       expect(assigns(:products)).to be_present
     end
 
-    it "pagination shows fist page as default" do
+    it "defaults to page 1 when an invalid page number is given" do
       get products_path, params: { page: -5 }
-      expect(assigns(:page)).to eq(1)
+
+      expect(response).to have_http_status(:ok)
+      expect(assigns(:pagy).page).to eq(1)
     end
 
     it "filters products by query" do

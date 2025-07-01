@@ -6,13 +6,19 @@ class ProductsController < ApplicationController
                       .order(average_rating: :desc))
 
     respond_to do |format|
-      format.html
-      format.turbo_stream
+      format.html do
+        if turbo_frame_request?
+          render partial: "products/product_grid", locals: { products: @products, pagy: @pagy }
+        else
+          render :index
+        end
+      end
     end
   end
 
   def show
     @product = Product.find(params[:id])
-    @feedbacks = @product.feedbacks.includes(:user).order(created_at: :desc)
+    @pagy, @feedbacks = pagy(@product.feedbacks.includes(:user).order(created_at: :desc), limit: 5)
+    @feedback = @product.feedbacks.build
   end
 end

@@ -8,6 +8,10 @@
 5. For importing csv feedbacks I added background job so it can handle have data in background without any issue on live user request. Also copied the csv file to temp incase someone deletes unexpectedly while background job is performing. 
 6. Writed test for importing feedbacks csv and updating product feedback stats jobs.
 7. Since I moved the feedback_count and average_rating to product table. Now it's better to use `pagy` gem instead of manual pagination. Now it's clean and better to use.
+8. I forgot about being able to import csv feedback to individual product, this time I fixed. Now you can import csv for all products (randomly) or selected product. Also, you can upload csv while you are in index or in individual product page.
+9. I updated styling ground up to clean up things and use turbo frame better.
+10. So I made sure the application runs with or without turbo. There are older browsers that do not support turbo in this case I handle them as well. 
+11. Adding feedback to product is beeing handled with turbo stream.
 
 1. I initialize rails 7.2 with sqlite3 and tailwindcss for styling
 2. Set up models for User, Product, Feedback

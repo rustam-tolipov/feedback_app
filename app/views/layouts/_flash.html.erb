@@ -1,0 +1,16 @@
+<% flash.each do |flash_type, message| %>
+  <% flash_classes = {
+    notice: "border-green-500 bg-green-50 text-green-800",
+    alert:  "border-red-500 bg-red-50 text-red-800",
+    error:  "border-red-500 bg-red-100 text-red-900",
+    info:   "border-blue-500 bg-blue-50 text-blue-800"
+  } %>
+
+  <div
+    data-controller="removals"
+    data-action="animationend->removals#remove"
+    class="flash-fade-up bg-white shadow-xl border rounded-lg px-4 p-2 <%= flash_classes[flash_type.to_sym] || '' %>"
+  >
+    <%= message.html_safe %>
+  </div>
+<% end %>

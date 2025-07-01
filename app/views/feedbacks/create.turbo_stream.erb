@@ -1,0 +1,5 @@
+<%= turbo_stream.update Feedback.new, "" %>
+
+<%= turbo_stream.prepend "feedbacks", partial: "feedbacks/feedback", locals: { feedback: @feedback } %>
+
+<%= turbo_stream.prepend "flash", partial: "layouts/flash" %>

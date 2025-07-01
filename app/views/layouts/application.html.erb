@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= content_for(:title) || "Feedback Ap" %></title>
+    <title><%= content_for(:title) || "Feedback App" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <%= csrf_meta_tags %>
@@ -18,6 +18,30 @@
   </head>
 
   <body>
-    <%= yield %>
+    <div class="flex h-screen w-screen relative items-center justify-center bg-slate-100">
+      <%# flash message %>
+      <div id="flash" class="fixed flex flex-col gap-2 z-50 top-5">
+        <%= render "layouts/flash" %>
+      </div>
+
+      <div data-controller="modal" class="h-full hidden w-20 lg:flex flex-col items-center justify-end pb-4 bg-gray-950">
+        <div data-action="click->modal#open" class="bg-gray-100 rounded-lg flex items-center text-2xl p-1 aspect-square cursor-pointer justify-center">🗂️</div>
+        <%= render 'shared/modal' %>
+      </div>
+
+      <div class="flex h-full w-full flex-col items-center gap-4 overflow-scroll p-6">
+        <%# searchbar %>
+        <div class="flex h-[6%] min-h-[6%] w-full items-center justify-end gap-4 overflow-hidden rounded-md bg-white p-2 px-4 shadow-md shadow-slate-200">
+          <h1 class="font-semibold hover:text-blue-400 uppercase mr-auto">
+            <%= link_to "Products", root_path %>
+          </h1>
+          <%= render "products/search_form" %>
+        </div>
+
+        <div class="h-[94%] w-full">
+          <%= yield %>
+        </div>
+      </div>
+    </div>
   </body>
 </html>

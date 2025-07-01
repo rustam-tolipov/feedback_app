@@ -1,0 +1,5 @@
+<%= link_to "back", @product %>
+
+<%= turbo_frame_tag @feedback do %>
+  <%= render "form", product: @product, feedback: @feedback %>
+<% end %>

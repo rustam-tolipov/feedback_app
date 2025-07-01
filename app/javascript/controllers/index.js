@@ -7,5 +7,14 @@ import { application } from "./application"
 import HelloController from "./hello_controller"
 application.register("hello", HelloController)
 
+import ModalController from "./modal_controller"
+application.register("modal", ModalController)
+
+import RemovalsController from "./removals_controller"
+application.register("removals", RemovalsController)
+
 import SearchController from "./search_controller"
 application.register("search", SearchController)
+
+import UploadCsvController from "./upload_csv_controller"
+application.register("upload-csv", UploadCsvController)
