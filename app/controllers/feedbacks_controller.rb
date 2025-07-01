@@ -1,8 +1,19 @@
 class FeedbacksController < ApplicationController
   def upload_csv
-    file = params[:file]
-    result = Feedbacks::CsvImporter.call(file)
-    redirect_to root_path, notice: "#{result[:success]} successfull imports. couldn't import: #{result[:failed]}"
+    if params[:file].present?
+
+      # So in case if someone deletes the importing file I'm saving it as temp file and deleting after import is done.
+      uploaded_file = params[:file]
+      filename = Rails.root.join("tmp", "uploads", "#{SecureRandom.hex(8)}.csv")
+      FileUtils.mkdir_p(File.dirname(filename))
+      File.write(filename, uploaded_file.read)
+
+      ImportFeedbackCsvJob.perform_later(filename.to_s)
+
+      redirect_to root_path, notice: "CSV upload started. Feedbacks will be imported shortly."
+    else
+      redirect_to root_path, alert: "Please upload a CSV file."
+    end
   end
 
   def upload_csv_form

@@ -5,6 +5,8 @@
 2. Updated Product table by adding average_rating and feedback_count to use less functions.
 3. Instead of using sql functions I used background jobs to handle updating product stats and it can handle large amount of data as well.
 4. I additionally added rake task `rails products:recalculate_stats` to reflect changes on product feedback stats
+5. For importing csv feedbacks I added background job so it can handle have data in background without any issue on live user request. Also copied the csv file to temp incase someone deletes unexpectedly while background job is performing. 
+6. Writed test for importing feedbacks csv and updating product feedback stats jobs.
 
 1. I initialize rails 7.2 with sqlite3 and tailwindcss for styling
 2. Set up models for User, Product, Feedback
