@@ -5,8 +5,7 @@ class ProductsController < ApplicationController
     @page = params[:page].to_i
     @page = 1 if @page < 1
 
-    products = Product.with_rating_data
-                      .search(params[:query])
+    products = Product.search(params[:query])
                       .filter_by_rating(params[:rating])
                       .order(average_rating: :desc)
 

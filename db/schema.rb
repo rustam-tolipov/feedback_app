@@ -10,12 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_06_17_152041) do
+ActiveRecord::Schema[7.2].define(version: 2025_07_01_132204) do
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "feedbacks", force: :cascade do |t|
     t.integer "rating"
     t.text "comment"
-    t.integer "user_id"
-    t.integer "product_id", null: false
+    t.bigint "user_id"
+    t.bigint "product_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["product_id"], name: "index_feedbacks_on_product_id"
@@ -28,6 +31,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_06_17_152041) do
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.float "average_rating", default: 0.0, null: false
+    t.integer "feedback_count", default: 0, null: false
     t.index ["name"], name: "index_products_on_name"
   end
 

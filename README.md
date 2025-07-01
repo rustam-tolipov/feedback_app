@@ -1,5 +1,10 @@
 ### feedback app
 
+### improvements after feedback
+1. I changes sqlite to postgresql to make application better on using background jobs like table locks.
+2. Updated Product table by adding average_rating and feedback_count to use less functions.
+3. Instead of using sql functions I used background jobs to handle updating product stats and it can handle large amount of data as well.
+
 1. I initialize rails 7.2 with sqlite3 and tailwindcss for styling
 2. Set up models for User, Product, Feedback
 User: simple user

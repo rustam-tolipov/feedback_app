@@ -36,5 +36,13 @@ puts "Feedbacks that for products created above with users that we specified"
   )
 end
 
+# Since seed cannot trigger background job here, I'm manually updating product average_rating and feedback_count columns after seeding to reflect changes
+puts "Updating products stats"
+Product.find_each do |product|
+  avg = product.feedbacks.average(:rating).to_f.round(2)
+  count = product.feedbacks.count
+  product.update_columns(average_rating: avg, feedback_count: count)
+end
+
 puts "🌱🌱🌱🌱🌱🌱🌱 SEEDING.... 🌱🌱🌱🌱🌱🌱🌱"
 puts "✅✅✅✅✅✅✅ COMPLETED   ✅✅✅✅✅✅✅"
