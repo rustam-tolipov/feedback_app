@@ -7,13 +7,16 @@ class FeedbacksController < ApplicationController
   end
 
   def upload_csv
-    result = Feedbacks::CsvImporter.call(params[:file], params[:product_id])
+    if params[:file].present?
+      filename = Rails.root.join("tmp", "uploads", "#{SecureRandom.hex(8)}.csv")
+      FileUtils.mkdir_p(File.dirname(filename))
+      File.write(filename, params[:file].read)
 
-    if result[:failed].any?
-      message = "#{result[:imported]} feedback(s) imported.<br>Some rows failed:<br>#{result[:failed].join('<br>')}"
-      flash[:alert] = message.html_safe
+      ImportFeedbackCsvJob.perform_later(filename.to_s, params[:product_id])
+
+      flash[:notice] = "CSV upload started. Feedbacks will be imported shortly."
     else
-      flash[:notice] = "#{result[:imported]} feedback(s) imported."
+      flash[:alert] = "Please upload a CSV file."
     end
 
     redirect_to params[:product_id].present? ? product_path(params[:product_id]) : root_path
